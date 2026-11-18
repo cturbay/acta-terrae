@@ -177,6 +177,11 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   .corpo .entrevista.fernando { --fundo: #1f2a21; --cor: #f1ead9; --sub: #c9d1c3; --rotulo: #f0b48a; }
   .corpo .entrevista.vinicius { --fundo: #2b2620; --cor: #f6f1e7; --sub: #d9ceb8; --rotulo: #f0b48a; }
 
+  .corpo .videos { margin: 2.6rem 0 1rem; }
+  .corpo .videos h2 { margin: 0 0 1.2rem; font: 700 .8rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--destaque); }
+  .corpo .videos figure.video { margin: 0 0 2rem; }
+  .corpo .videos .player { position: relative; aspect-ratio: 16 / 9; background: #1d1a14; }
+  .corpo .videos iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
   .corpo .licenca { display: flex; align-items: center; gap: .8rem; font: .82rem/1.5 var(--sans); color: var(--suave); }
   .corpo .licenca img { width: 66px; height: auto; flex: none; }
   .corpo .bio { font: 1rem/1.7 var(--sans); background: #e6d9bf; padding: 1.6rem 1.8rem; margin: 2rem 0; }
