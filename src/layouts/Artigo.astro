@@ -100,9 +100,9 @@ const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLeg
 <style is:global>
   .artigo { padding-top: 0; }
   .topo-compart { display: flex; justify-content: center; margin: 2rem 0 1rem; padding: 0 1.25rem; }
-  .fim-compart { max-width: 62rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
+  .fim-compart { max-width: 53rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
   .fim-compart + .comentarios { margin-top: 1.5rem; }
-  .comentarios { max-width: 62rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
+  .comentarios { max-width: 53rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
   .comentarios h2 { margin: 0 0 .5rem; font: 700 .8rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
   .comentarios .aviso { font: .92rem var(--sans); color: var(--suave); margin: 0 0 1rem; }
   .form-coment { display: grid; gap: .9rem; max-width: 36rem; }
@@ -130,7 +130,7 @@ const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLeg
 
   /* ---------- Texto ---------- */
   body.revista { overflow-x: clip; }
-  .corpo { max-width: 62rem; margin: 0 auto; padding: 1.5rem 1.25rem 0; font-size: 1.35rem; line-height: 1.7; }
+  .corpo { max-width: 53rem; margin: 0 auto; padding: 1.5rem 1.25rem 0; font-size: 1.3rem; line-height: 1.7; }
   .corpo p { margin: 0 0 1.6rem; hyphens: auto; }
   .corpo > p:first-of-type::first-letter { float: left; font-family: var(--titulo); font-weight: 900; font-size: 6.2rem; line-height: .82; padding: .55rem .8rem 0 0; color: var(--destaque); }
   .corpo a { color: var(--destaque); text-underline-offset: 3px; overflow-wrap: anywhere; }
@@ -157,7 +157,7 @@ const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLeg
   .corpo figure.foto-cheia::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); background: rgba(15,12,8,.6); pointer-events: none; }
   .corpo figure.foto-cheia .frase { position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); z-index: 2; display: flex; align-items: center; justify-content: center; padding: 0 clamp(1.25rem, 5vw, 4rem); }
   .corpo figure.foto-cheia .frase p { margin: 0; max-width: 56rem; text-align: center; font-family: var(--titulo); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.9rem); line-height: 1.22; color: #fbf6ea; hyphens: none; }
-  .corpo figure.foto-cheia figcaption { max-width: 62rem; margin: .8rem auto 2.6rem; padding: 0 1.25rem; }
+  .corpo figure.foto-cheia figcaption { max-width: 53rem; margin: .8rem auto 2.6rem; padding: 0 1.25rem; }
 
   /* Entrevistas em faixas de cor */
   .corpo .entrevista { width: 100vw; margin: 2.6rem calc(50% - 50vw); display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; background: var(--fundo); color: var(--cor); }
