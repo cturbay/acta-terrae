@@ -2,7 +2,7 @@
 import { reportagens } from '../data/reportagens.js';
 const { title = 'Acta Terrae', description = 'Webreportagens sobre geociências, território e meio ambiente.', carrossel = true, revista = false } = Astro.props;
 const fullTitle = title === 'Acta Terrae' ? 'Acta Terrae — Webreportagens' : `${title} — Acta Terrae`;
-const fotos = ['01', '02', '03', '04', '08', '06', '09', '10', '11'].map((n) => `/faixa/${n}.jpg`);
+const fotos = ['01', '02', '08', '03', '10', '04', '09', '06', '11'].map((n) => `/faixa/${n}.jpg`);
 const atual = Astro.url.pathname;
 const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
 ---
