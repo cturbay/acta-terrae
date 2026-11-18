@@ -21,20 +21,76 @@ const { titulo, secao, linhas = [], descricao, data } = Astro.props;
     </div>
     <div class="fim-compart"><Compartilhar titulo={titulo} /></div>
     {comentariosAbertos && (
-    <section class="comentarios" id="comentarios" aria-labelledby="tit-coment">
+    <section class="comentarios" id="comentarios" aria-labelledby="tit-coment" data-pagina={Astro.url.pathname}>
       <h2 id="tit-coment">Comentários</h2>
-      <p class="aviso">Os comentários são lidos e aprovados antes de aparecer aqui. Em breve estarão abertos.</p>
-      <form class="form-coment" onsubmit="return false">
-        <fieldset disabled>
-          <label>Nome <input type="text" name="nome" autocomplete="name" /></label>
-          <label>Comentário <textarea name="texto" rows="4"></textarea></label>
-          <button type="submit">Enviar para aprovação</button>
-        </fieldset>
+      <div class="lista-coment" aria-live="polite"></div>
+      <p class="aviso">Seu comentário será lido e aprovado antes de aparecer aqui.</p>
+      <form class="form-coment">
+        <label>Nome <input type="text" name="nome" maxlength="80" required autocomplete="name" /></label>
+        <label>Comentário <textarea name="texto" rows="4" maxlength="2000" required></textarea></label>
+        <label class="isca" aria-hidden="true">Não preencha <input type="text" name="site" tabindex="-1" autocomplete="off" /></label>
+        <button type="submit">Enviar para aprovação</button>
+        <p class="retorno" role="status"></p>
       </form>
     </section>
     )}
   </article>
 </Base>
+
+<script>
+  const sec = document.querySelector<HTMLElement>('.comentarios');
+  if (sec) {
+    const pagina = sec.dataset.pagina ?? '';
+    const lista = sec.querySelector<HTMLElement>('.lista-coment')!;
+    const form = sec.querySelector<HTMLFormElement>('.form-coment')!;
+    const retorno = sec.querySelector<HTMLElement>('.retorno')!;
+    const botao = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+
+    fetch('/api/comentarios?pagina=' + encodeURIComponent(pagina))
+      .then((r) => (r.ok ? r.json() : []))
+      .then((itens: { nome: string; texto: string; criado_em: string }[]) => {
+        for (const c of itens) {
+          const div = document.createElement('div');
+          div.className = 'coment';
+          const q = document.createElement('p');
+          q.className = 'quem';
+          q.textContent = c.nome + ' ';
+          const d = document.createElement('span');
+          d.textContent = '· ' + new Date(c.criado_em.replace(' ', 'T') + 'Z').toLocaleDateString('pt-BR');
+          q.append(d);
+          const t = document.createElement('p');
+          t.textContent = c.texto;
+          div.append(q, t);
+          lista.append(div);
+        }
+      })
+      .catch(() => {});
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const dados = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      botao.disabled = true;
+      retorno.textContent = 'Enviando…';
+      try {
+        const r = await fetch('/api/comentarios', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ ...dados, pagina }),
+        });
+        const res = await r.json().catch(() => ({}));
+        if (r.ok) {
+          form.reset();
+          retorno.textContent = 'Obrigado! Seu comentário foi enviado e aparecerá aqui depois de aprovado.';
+        } else {
+          retorno.textContent = res.erro || 'Não foi possível enviar agora. Tente de novo mais tarde.';
+        }
+      } catch {
+        retorno.textContent = 'Não foi possível enviar agora. Tente de novo mais tarde.';
+      }
+      botao.disabled = false;
+    });
+  }
+</script>
 
 <style is:global>
   .artigo { padding-top: .5rem; }
@@ -44,7 +100,14 @@ const { titulo, secao, linhas = [], descricao, data } = Astro.props;
   .comentarios { max-width: 60rem; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--linha); }
   .comentarios h2 { margin: 0 0 .5rem; font: 700 .8rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
   .comentarios .aviso { font: .92rem var(--sans); color: var(--suave); margin: 0 0 1rem; }
-  .form-coment fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: .9rem; max-width: 36rem; opacity: .6; }
+  .form-coment { display: grid; gap: .9rem; max-width: 36rem; }
+  .isca { position: absolute; left: -9999px; }
+  .retorno { margin: 0; font: .9rem var(--sans); color: var(--suave); }
+  .lista-coment { display: grid; gap: 1rem; margin: 0 0 1.5rem; }
+  .coment { padding: .9rem 1.1rem; background: var(--painel); border-left: 3px solid var(--destaque); }
+  .coment .quem { margin: 0 0 .3rem; font: 700 .85rem var(--sans); }
+  .coment .quem span { font-weight: 400; color: var(--suave); }
+  .coment p { margin: 0; white-space: pre-wrap; }
   .form-coment label { display: grid; gap: .3rem; font: 600 .85rem var(--sans); }
   .form-coment input, .form-coment textarea { font: 1rem var(--serif); padding: .55rem .7rem; border: 1px solid var(--linha); background: #fffaf0; border-radius: 3px; }
   .form-coment button { justify-self: start; font: 700 .85rem var(--sans); padding: .6rem 1.1rem; background: var(--destaque); color: #fff; border: 0; border-radius: 3px; }
