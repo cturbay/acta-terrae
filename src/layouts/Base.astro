@@ -145,7 +145,7 @@ const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
   main { grid-column: 1; grid-row: 1; min-width: 0; padding: 2rem 2.5rem 0 3rem; min-height: 60vh; }
   main { position: relative; }
   main::after { content: ''; position: absolute; top: 2rem; bottom: 0; right: 0; width: 1px; background: var(--linha); }
-  .voltar { display: inline-block; margin: 0 0 1.2rem; padding: .5rem 1rem; font: 700 .85rem var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: #fff; background: var(--destaque); border-radius: 3px; }
+  .voltar { position: sticky; top: calc(var(--faixa) + 1rem); z-index: 5; box-shadow: 0 2px 8px rgba(42,33,24,.3); display: inline-block; margin: 0 0 1.2rem; padding: .5rem 1rem; font: 700 .85rem var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: #fff; background: var(--destaque); border-radius: 3px; }
   .voltar:hover { background: var(--tinta); }
   .lateral .quem { margin-top: 1.5rem; padding: 1rem 1.1rem; background: var(--painel); border-left: 4px solid var(--destaque); }
   .lateral .quem h2 { margin: 0 0 .4rem; padding: 0; border: 0; font: 700 .72rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
