@@ -3,9 +3,13 @@ import Base from './Base.astro';
 import Compartilhar from '../components/Compartilhar.astro';
 // true = mostra a seção de comentários (o formulário ainda está desativado)
 const comentariosAbertos = true;
-const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLegenda } = Astro.props;
+import { ui } from '../i18n.js';
+const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLegenda, lang = 'pt' } = Astro.props;
+const T = ui[lang];
+// os comentários são compartilhados entre os idiomas: usam sempre o endereço em português
+const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
 ---
-<Base title={titulo} description={descricao} carrossel={false} revista={true}>
+<Base title={titulo} description={descricao} carrossel={false} revista={true} lang={lang}>
   <article class="artigo">
     <header class="hero">
       {capa && <img class="hero-img" src={capa} alt={capaAlt} />}
@@ -20,21 +24,21 @@ const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLeg
       </div>
     </header>
     {capaLegenda && <p class="hero-legenda">{capaLegenda}</p>}
-    <div class="topo-compart"><Compartilhar titulo={titulo} /></div>
+    <div class="topo-compart"><Compartilhar titulo={titulo} lang={lang} /></div>
     <div class="corpo">
       <slot />
     </div>
-    <div class="fim-compart"><Compartilhar titulo={titulo} /></div>
+    <div class="fim-compart"><Compartilhar titulo={titulo} lang={lang} /></div>
     {comentariosAbertos && (
-    <section class="comentarios" id="comentarios" aria-labelledby="tit-coment" data-pagina={Astro.url.pathname}>
-      <h2 id="tit-coment">Comentários</h2>
+    <section class="comentarios" id="comentarios" aria-labelledby="tit-coment" data-pagina={paginaComent} data-enviando={T.enviando} data-obrigado={T.obrigado} data-erro={T.erroEnvio}>
+      <h2 id="tit-coment">{T.comentarios}</h2>
       <div class="lista-coment" aria-live="polite"></div>
-      <p class="aviso">Seu comentário será lido e aprovado antes de aparecer aqui.</p>
+      <p class="aviso">{T.avisoComent}</p>
       <form class="form-coment">
-        <label>Nome <input type="text" name="nome" maxlength="80" required autocomplete="name" /></label>
-        <label>Comentário <textarea name="texto" rows="4" maxlength="2000" required></textarea></label>
-        <label class="isca" aria-hidden="true">Não preencha <input type="text" name="site" tabindex="-1" autocomplete="off" /></label>
-        <button type="submit">Enviar para aprovação</button>
+        <label>{T.nome} <input type="text" name="nome" maxlength="80" required autocomplete="name" /></label>
+        <label>{T.comentario} <textarea name="texto" rows="4" maxlength="2000" required></textarea></label>
+        <label class="isca" aria-hidden="true">{T.naoPreencha} <input type="text" name="site" tabindex="-1" autocomplete="off" /></label>
+        <button type="submit">{T.enviar}</button>
         <p class="retorno" role="status"></p>
       </form>
     </section>
@@ -61,7 +65,7 @@ const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLeg
           q.className = 'quem';
           q.textContent = c.nome + ' ';
           const d = document.createElement('span');
-          d.textContent = '· ' + new Date(c.criado_em.replace(' ', 'T') + 'Z').toLocaleDateString('pt-BR');
+          d.textContent = '· ' + new Date(c.criado_em.replace(' ', 'T') + 'Z').toLocaleDateString(document.documentElement.lang || 'pt-BR');
           q.append(d);
           const t = document.createElement('p');
           t.textContent = c.texto;
@@ -75,7 +79,7 @@ const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLeg
       e.preventDefault();
       const dados = Object.fromEntries(new FormData(form)) as Record<string, string>;
       botao.disabled = true;
-      retorno.textContent = 'Enviando…';
+      retorno.textContent = sec.dataset.enviando ?? '';
       try {
         const r = await fetch('/api/comentarios', {
           method: 'POST',
@@ -85,12 +89,12 @@ const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLeg
         const res = await r.json().catch(() => ({}));
         if (r.ok) {
           form.reset();
-          retorno.textContent = 'Obrigado! Seu comentário foi enviado e aparecerá aqui depois de aprovado.';
+          retorno.textContent = sec.dataset.obrigado ?? '';
         } else {
-          retorno.textContent = res.erro || 'Não foi possível enviar agora. Tente de novo mais tarde.';
+          retorno.textContent = res.erro || sec.dataset.erro || '';
         }
       } catch {
-        retorno.textContent = 'Não foi possível enviar agora. Tente de novo mais tarde.';
+        retorno.textContent = sec.dataset.erro ?? '';
       }
       botao.disabled = false;
     });

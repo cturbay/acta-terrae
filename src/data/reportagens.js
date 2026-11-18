@@ -10,5 +10,12 @@ export const reportagens = [
     autor: 'Caio Gabrig Turbay',
     data: 'Agosto de 2021',
     imagem: '/reportagens/desmatamento-arraial/Abertura-rua-2-1024x702.png',
+    en: {
+      secao: 'Environment',
+      titulo: "Deforestation advances in Arraial d'Ajuda, Bahia",
+      resumo:
+        'Over the past decade, Arraial d\'Ajuda has seen a sharp advance in the clearing of its forests. Anyone who knows the region notices the destruction happening in very short intervals of time.',
+      data: 'August 2021',
+    },
   },
 ];

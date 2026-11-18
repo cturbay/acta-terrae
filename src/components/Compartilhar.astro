@@ -1,6 +1,8 @@
 ---
 import { siWhatsapp, siTelegram, siReddit, siX } from 'simple-icons';
-const { titulo } = Astro.props;
+import { ui } from '../i18n.js';
+const { titulo, lang = 'pt' } = Astro.props;
+const T = ui[lang];
 const url = new URL(Astro.url.pathname, Astro.site ?? 'https://actaterrae.com.br').href;
 const u = encodeURIComponent(url);
 const t = encodeURIComponent(titulo + ' — Acta Terrae');
@@ -12,18 +14,18 @@ const redes = [
   { nome: 'E-mail', icone: 'M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zm2 .9v.2l8 5.4 8-5.4v-.2l-.3-.4H4.3L4 6.4zm16 2.6-7.4 5a1 1 0 0 1-1.2 0L4 9v9h16V9z', href: `mailto:?subject=${t}&body=${u}` },
 ];
 ---
-<div class="compartilhar" data-url={url} data-titulo={titulo}>
-  <span class="rotulo">Compartilhe</span>
+<div class="compartilhar" data-url={url} data-titulo={titulo} data-copiar={T.copiar} data-copiado={T.copiado} data-prompt={T.copieOLink}>
+  <span class="rotulo">{T.compartilhe}</span>
   <ul>
     {redes.map((r) => (
       <li>
-        <a href={r.href} target="_blank" rel="noopener noreferrer" aria-label={`Compartilhar no ${r.nome}`} title={r.nome}>
+        <a href={r.href} target="_blank" rel="noopener noreferrer" aria-label={`${T.compartilharNo} ${r.nome}`} title={r.nome}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d={r.icone} /></svg>
         </a>
       </li>
     ))}
     <li>
-      <button type="button" class="copiar" aria-label="Copiar link" title="Copiar link">
+      <button type="button" class="copiar" aria-label={T.copiar} title={T.copiar}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a3 3 0 0 1 4.2 4.2l-2.1 2.1a1 1 0 1 1-1.4-1.4l2.1-2.1a1 1 0 0 0-1.4-1.4L12 13.4a1 1 0 0 1-1.4 0zm2.8-2.8a1 1 0 0 1 0 1.4L9.9 15.5a3 3 0 0 1-4.2-4.2l2.1-2.1a1 1 0 1 1 1.4 1.4l-2.1 2.1a1 1 0 0 0 1.4 1.4L12 10.6a1 1 0 0 1 1.4 0z" /></svg>
       </button>
     </li>
@@ -35,9 +37,9 @@ const redes = [
     const btn = box.querySelector<HTMLButtonElement>('.copiar');
     btn?.addEventListener('click', async () => {
       const url = box.dataset.url ?? location.href;
-      try { await navigator.clipboard.writeText(url); btn.title = 'Link copiado!'; btn.classList.add('ok'); }
-      catch { window.prompt('Copie o link:', url); }
-      setTimeout(() => { btn.title = 'Copiar link'; btn.classList.remove('ok'); }, 2000);
+      try { await navigator.clipboard.writeText(url); btn.title = box.dataset.copiado ?? ''; btn.classList.add('ok'); }
+      catch { window.prompt(box.dataset.prompt ?? '', url); }
+      setTimeout(() => { btn.title = box.dataset.copiar ?? ''; btn.classList.remove('ok'); }, 2000);
     });
   });
 </script>

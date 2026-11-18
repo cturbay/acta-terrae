@@ -1,25 +1,37 @@
 ---
 import { reportagens } from '../data/reportagens.js';
-const { title = 'Acta Terrae', description = 'Webreportagens sobre geociências, território e meio ambiente.', carrossel = true, revista = false } = Astro.props;
-const fullTitle = title === 'Acta Terrae' ? 'Acta Terrae — Webreportagens' : `${title} — Acta Terrae`;
+import { ui, traduz } from '../i18n.js';
+const { title = 'Acta Terrae', description, carrossel = true, revista = false, terra = false, lang = 'pt' } = Astro.props;
+const T = ui[lang];
+const pre = lang === 'en' ? '/en' : '';
+const desc = description ?? T.descricao;
+const lista = reportagens.map((r) => traduz(r, lang));
+// endereço da mesma página no outro idioma
+const caminho = Astro.url.pathname;
+const semEn = caminho.replace(/^\/en(?=\/|$)/, '') || '/';
+const urlPt = semEn;
+const urlEn = '/en' + (semEn === '/' ? '/' : semEn);
+const fullTitle = title === 'Acta Terrae' ? (lang === 'en' ? 'Acta Terrae — Web features' : 'Acta Terrae — Webreportagens') : `${title} — Acta Terrae`;
 const fotos = ['01', '02', '08', '03', '10', '04', '09', '06', '11'].map((n) => `/faixa/${n}.jpg`);
 const atual = Astro.url.pathname;
 const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
 ---
 <!doctype html>
-<html lang="pt-BR">
+<html lang={T.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
+    <meta name="description" content={desc} />
+    <link rel="alternate" hreflang="pt-BR" href={urlPt} />
+    <link rel="alternate" hreflang="en" href={urlEn} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{fullTitle}</title>
     {revista && <link rel="preconnect" href="https://fonts.googleapis.com" />}
     {revista && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
     {revista && <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />}
   </head>
-  <body class:list={[{ 'sem-carrossel': !carrossel, revista }]}>
-    <header class:list={['faixa', { solo: !carrossel }]} aria-label="Cabeçalho">
+  <body class:list={[{ 'sem-carrossel': !carrossel, revista, terra }]}>
+    <header class:list={['faixa', { solo: !carrossel }]} aria-label={T.cabecalho}>
       {carrossel && (
         <div class="reel" aria-hidden="true">
           <div class="trilho">
@@ -27,47 +39,53 @@ const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
           </div>
         </div>
       )}
-      <a href="/" class="marca" aria-label="Acta Terrae — página inicial">
+      <a href={pre + '/'} class="marca" aria-label={T.inicioAria}>
         <img src="/logo-transparente.png" alt="Acta Terrae" />
       </a>
       {revista && (
-        <nav class="nav-revista" aria-label="Principal">
-          <a href="/">Reportagens</a>
-          <a href={podcastUrl} target="_blank" rel="noopener">Podcast</a>
-          <a href="/bio/">Quem faz</a>
+        <nav class="nav-revista" aria-label={T.principal}>
+          <a href={pre + '/'}>{T.reportagens}</a>
+          <a href={podcastUrl} target="_blank" rel="noopener">{T.podcast}</a>
+          <a href={pre + '/bio/'}>{T.quemFaz}</a>
         </nav>
       )}
+      <div class="idioma" role="group" aria-label={T.idioma}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 9h-3a15.7 15.7 0 0 0-1.3-5.2A8 8 0 0 1 18.9 11zM12 4c.8 1 1.8 3.2 2 7h-4c.2-3.8 1.2-6 2-7zM4.1 13h3a15.7 15.7 0 0 0 1.3 5.2A8 8 0 0 1 4.1 13zm3-2h-3a8 8 0 0 1 4.3-5.2A15.7 15.7 0 0 0 7.1 11zM12 20c-.8-1-1.8-3.2-2-7h4c-.2 3.8-1.2 6-2 7zm2.6-1.8A15.7 15.7 0 0 0 15.9 13h3a8 8 0 0 1-4.3 5.2z"/></svg>
+        <a href={urlPt} hreflang="pt-BR" lang="pt-BR" aria-current={lang === 'pt' ? 'true' : undefined} class:list={[{ ativo: lang === 'pt' }]}>PT</a>
+        <span aria-hidden="true">|</span>
+        <a href={urlEn} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined} class:list={[{ ativo: lang === 'en' }]}>EN</a>
+      </div>
     </header>
 
     <div class="miolo">
-      <aside class="lateral" aria-label="Menu">
+      <aside class="lateral" aria-label={T.menu}>
         <nav>
-          <h2>Reportagens</h2>
+          <h2>{T.reportagens}</h2>
           <ul>
-            {reportagens.map((r) => (
+            {lista.map((r) => (
               <li>
-                <a href={`/reportagens/${r.slug}/`} class:list={[{ ativo: atual.startsWith(`/reportagens/${r.slug}`) }]}>
+                <a href={`${pre}/reportagens/${r.slug}/`} class:list={[{ ativo: atual.includes(`/reportagens/${r.slug}`) }]}>
                   <span class="secao">{r.secao}</span>
                   <span class="tit">{r.titulo}</span>
                 </a>
               </li>
             ))}
           </ul>
-          <p class="breve">Novas reportagens em breve.</p>
-          <h2>Podcast</h2>
+          <p class="breve">{T.breve}</p>
+          <h2>{T.podcast}</h2>
           <a href={podcastUrl} class="podcast" target="_blank" rel="noopener">
-            <span class="secao">Ouça</span>
+            <span class="secao">{T.ouca}</span>
             <span class="tit">Uma Pedra no Caminho</span>
           </a>
         </nav>
         <section class="quem">
-          <h2>Quem faz</h2>
-          <p>Caio Gabrig Turbay é geólogo, ambientalista e professor da Universidade Federal do Sul da Bahia.</p>
-          <a href="/bio/" class="mais">Ler a bio →</a>
+          <h2>{T.quemFaz}</h2>
+          <p>{T.quemFazTexto}</p>
+          <a href={pre + '/bio/'} class="mais">{T.lerBio}</a>
         </section>
       </aside>
       <main>
-        {atual !== '/' && <a href="/" class="voltar">← Início</a>}
+        {atual !== '/' && atual !== '/en/' && <a href={pre + '/'} class="voltar">{T.voltar}</a>}
         <slot />
       </main>
     </div>
@@ -76,10 +94,10 @@ const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
       <div class="rodape-in">
         <div>
           <p class="rodape-titulo">Acta Terrae</p>
-          <p>Webreportagens sobre geociências, território e meio ambiente.</p>
+          <p>{T.descricao}</p>
         </div>
         <div>
-          <p class="rodape-titulo">Contato</p>
+          <p class="rodape-titulo">{T.contato}</p>
           <p><a href="mailto:actaterrae@gmail.com">actaterrae@gmail.com</a></p>
           <p><a href="https://wa.me/5573998165672" target="_blank" rel="noopener">WhatsApp (73) 99816-5672</a></p>
         </div>
@@ -174,11 +192,21 @@ const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
   .rodape-titulo { font: 700 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--tinta); }
   .rodape .rodape-fim { padding: 1rem 2rem 2rem; border-top: 1px solid var(--linha); margin: 0 2rem; padding-inline: 0; }
 
+  /* Seletor de idioma */
+  .idioma { position: absolute; top: .6rem; right: clamp(.6rem, 2vw, 1.5rem); z-index: 12; display: flex; align-items: center; gap: .4rem; padding: .3rem .7rem; background: rgba(245, 239, 227, .92); border-radius: 999px; box-shadow: 0 1px 6px rgba(0, 0, 0, .2); font: 700 .72rem var(--sans); letter-spacing: .1em; color: var(--suave); }
+  .idioma svg { width: 1rem; height: 1rem; fill: var(--tinta); }
+  .idioma a { text-decoration: none; color: var(--suave); padding: .1rem .15rem; }
+  .idioma a.ativo { color: var(--destaque); border-bottom: 2px solid var(--destaque); }
+  .idioma a:hover { color: var(--destaque); }
+  body.terra { --papel: #e8d9bc; --painel: #dac9a6; --linha: #c8b48d; }
+  .idioma { background: color-mix(in srgb, var(--papel) 92%, transparent); }
+
   /* Páginas em estilo revista */
   body.revista { --papel: #f6f1e7; --destaque: #b4532a; --titulo: 'Playfair Display', Georgia, serif; font-family: 'Source Serif 4', var(--serif); }
-  body.revista .faixa { position: relative; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1.5rem; padding-right: clamp(.75rem, 3vw, 2rem); }
+  body.revista .idioma { position: static; margin-left: 1.2rem; box-shadow: none; background: transparent; padding: 0; }
+  body.revista .faixa { position: relative; display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: .5rem 1.5rem; padding-right: clamp(.75rem, 3vw, 2rem); }
   body.revista .faixa::after { display: none; }
-  body.revista .nav-revista { display: flex; gap: 1.6rem; flex-wrap: wrap; font: 700 .75rem var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+  body.revista .nav-revista { margin-left: auto; display: flex; gap: 1.6rem; flex-wrap: wrap; font: 700 .75rem var(--sans); letter-spacing: .16em; text-transform: uppercase; }
   body.revista .nav-revista a { text-decoration: none; color: var(--tinta); }
   body.revista .nav-revista a:hover { color: var(--destaque); }
   body.revista .lateral { display: none; }
