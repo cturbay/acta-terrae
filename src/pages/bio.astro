@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Bio" description="Quem faz o Acta Terrae.">
+  <article class="bio-pagina">
+    <p class="kicker">Quem faz</p>
+    <h1>Caio Gabrig Turbay</h1>
+    <p>Geólogo, ambientalista e professor da Universidade Federal do Sul da Bahia. Acredita em um mundo com obras verdadeiras, solidariedade e respeito.</p>
+    <p class="breve-bio">A biografia completa será escrita aqui em breve.</p>
+  </article>
+</Base>
+
+<style>
+  .bio-pagina { max-width: 46rem; margin: 0 auto; }
+  .kicker { font: 700 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--destaque); margin: 0 0 .6rem; }
+  h1 { font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.1; margin: 0 0 1.2rem; }
+  p { font-size: 1.15rem; line-height: 1.7; }
+  .breve-bio { color: var(--suave); font: .95rem var(--sans); }
+</style>

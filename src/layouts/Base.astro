@@ -1,0 +1,175 @@
+---
+import { reportagens } from '../data/reportagens.js';
+const { title = 'Acta Terrae', description = 'Webreportagens sobre geociências, território e meio ambiente.', carrossel = true } = Astro.props;
+const fullTitle = title === 'Acta Terrae' ? 'Acta Terrae — Webreportagens' : `${title} — Acta Terrae`;
+const fotos = ['01', '02', '03', '04', '05', '06', '07'].map((n) => `/faixa/${n}.jpg`);
+const atual = Astro.url.pathname;
+const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{fullTitle}</title>
+  </head>
+  <body class:list={[{ 'sem-carrossel': !carrossel }]}>
+    <header class:list={['faixa', { solo: !carrossel }]} aria-label="Cabeçalho">
+      {carrossel && (
+        <div class="reel" aria-hidden="true">
+          <div class="trilho">
+            {[...fotos, ...fotos].map((f) => <img src={f} alt="" loading="eager" decoding="async" />)}
+          </div>
+        </div>
+      )}
+      <a href="/" class="marca" aria-label="Acta Terrae — página inicial">
+        <img src="/logo-transparente.png" alt="Acta Terrae" />
+      </a>
+    </header>
+
+    <div class="miolo">
+      <aside class="lateral" aria-label="Menu">
+        <nav>
+          <h2>Reportagens</h2>
+          <ul>
+            {reportagens.map((r) => (
+              <li>
+                <a href={`/reportagens/${r.slug}/`} class:list={[{ ativo: atual.startsWith(`/reportagens/${r.slug}`) }]}>
+                  <span class="secao">{r.secao}</span>
+                  <span class="tit">{r.titulo}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="breve">Novas reportagens em breve.</p>
+          <h2>Podcast</h2>
+          <a href={podcastUrl} class="podcast" target="_blank" rel="noopener">
+            <span class="secao">Ouça</span>
+            <span class="tit">Uma Pedra no Caminho</span>
+          </a>
+        </nav>
+        <section class="quem">
+          <h2>Quem faz</h2>
+          <p>Caio Gabrig Turbay é geólogo, ambientalista e professor da Universidade Federal do Sul da Bahia.</p>
+          <a href="/bio/" class="mais">Ler a bio →</a>
+        </section>
+      </aside>
+      <main>
+        {atual !== '/' && <a href="/" class="voltar">← Início</a>}
+        <slot />
+      </main>
+    </div>
+
+    <footer class="rodape">
+      <div class="rodape-in">
+        <div>
+          <p class="rodape-titulo">Acta Terrae</p>
+          <p>Webreportagens sobre geociências, território e meio ambiente.</p>
+        </div>
+        <div>
+          <p class="rodape-titulo">Contato</p>
+          <p><a href="mailto:actaterrae@gmail.com">actaterrae@gmail.com</a></p>
+          <p><a href="https://wa.me/5573998165672" target="_blank" rel="noopener">WhatsApp (73) 99816-5672</a></p>
+        </div>
+      </div>
+      <p class="rodape-fim">© {new Date().getFullYear()} Acta Terrae · Caio Turbay</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --papel: #f5efe3;
+    --painel: #ece3d1;
+    --tinta: #2a2118;
+    --suave: #6f6252;
+    --linha: #d8ccb4;
+    --destaque: #9a4a22;
+    --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
+    --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --faixa-base: clamp(120px, 22vw, 300px);
+    --faixa: calc(var(--faixa-base) + 22px);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--papel); color: var(--tinta); font-family: var(--serif); line-height: 1.6; }
+  a { color: inherit; }
+  img { max-width: 100%; height: auto; }
+
+  /* Faixa de fotos em carretel */
+  .faixa { position: sticky; top: 0; z-index: 10; height: var(--faixa); background: var(--papel); border-bottom: 1px solid var(--linha); }
+  .faixa::after { content: ''; position: absolute; left: clamp(1.5rem, 8vw, 9rem); right: clamp(1.5rem, 8vw, 9rem); bottom: 8px; height: 5px; background: var(--destaque); border-radius: 3px; }
+  .reel { position: absolute; top: 0; left: 0; right: 0; bottom: 22px; overflow: hidden; background: #1c1710; }
+  .trilho { display: flex; height: 100%; width: max-content; animation: rolar 120s linear infinite; }
+  .trilho img { height: 100%; width: auto; max-width: none; margin-right: 4px; flex: none; display: block; }
+  .faixa:hover .trilho { animation-play-state: paused; }
+  @keyframes rolar { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .trilho { animation: none; }
+    .reel { overflow-x: auto; }
+  }
+  .marca {
+    position: absolute; top: 0; left: clamp(.75rem, 3vw, 2rem);
+    display: block; line-height: 0; padding: .9rem 1.2rem 1rem;
+    background: var(--papel); border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, .25);
+  }
+  /* Cabeçalho só com a logo (páginas de reportagem) */
+  body.sem-carrossel { --faixa-base: clamp(64px, 6vw, 80px); --faixa: calc(var(--faixa-base) + 22px); }
+  .faixa.solo { background: var(--papel); }
+  .faixa.solo .marca { position: static; display: inline-flex; height: var(--faixa-base); align-items: center; padding: 0 clamp(.75rem, 3vw, 2rem); background: none; box-shadow: none; border-radius: 0; }
+  .faixa.solo .marca img { height: calc(var(--faixa-base) - 22px); }
+  .marca img { height: clamp(52px, 8vw, 92px); width: auto; display: block; }
+
+  /* Menu lateral + conteúdo */
+  .miolo { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; gap: 0; width: 100%; margin-inline: auto; align-items: start; }
+  .lateral { grid-column: 2; grid-row: 1; position: sticky; top: var(--faixa); padding: 1.75rem 1.25rem 2rem 2rem; }
+  .lateral nav { display: flex; flex-direction: column; gap: .4rem; }
+  .lateral .inicio {
+    font: 700 .78rem var(--sans); letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+    padding: .35rem 0; color: var(--tinta);
+  }
+  .lateral h2 {
+    margin: 1.2rem 0 .3rem; padding-bottom: .5rem; border-bottom: 2px solid var(--tinta);
+    font: 700 .78rem var(--sans); letter-spacing: .14em; text-transform: uppercase;
+  }
+  .lateral ul { list-style: none; margin: 0; padding: 0; }
+  .lateral li a { display: block; text-decoration: none; padding: .8rem .2rem; border-bottom: 1px solid var(--linha); }
+  .lateral li .secao { display: block; font: 700 .66rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--destaque); }
+  .lateral li .tit { display: block; font-size: 1rem; line-height: 1.28; font-weight: 700; margin-top: .15rem; }
+  .lateral a:hover .tit, .lateral .inicio:hover { color: var(--destaque); }
+  .lateral a.ativo .tit, .lateral .inicio.ativo { color: var(--destaque); }
+  .lateral .breve { font: .82rem var(--sans); color: var(--suave); margin: .8rem 0 0; }
+  main { grid-column: 1; grid-row: 1; min-width: 0; padding: 2rem 2.5rem 0 3rem; min-height: 60vh; }
+  main { position: relative; }
+  main::after { content: ''; position: absolute; top: 2rem; bottom: 0; right: 0; width: 1px; background: var(--linha); }
+  .voltar { display: inline-block; margin: 0 0 1.2rem; padding: .5rem 1rem; font: 700 .85rem var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: #fff; background: var(--destaque); border-radius: 3px; }
+  .voltar:hover { background: var(--tinta); }
+  .lateral .quem { margin-top: 1.5rem; padding: 1rem 1.1rem; background: var(--painel); border-left: 4px solid var(--destaque); }
+  .lateral .quem h2 { margin: 0 0 .4rem; padding: 0; border: 0; font: 700 .72rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+  .lateral .quem p { margin: 0; font: .88rem/1.5 var(--sans); color: var(--suave); }
+  .lateral .quem .mais { display: inline-block; margin-top: .6rem; font: 700 .82rem var(--sans); color: var(--destaque); text-decoration: none; }
+  .lateral .quem .mais:hover { text-decoration: underline; }
+  .lateral .podcast { display: block; text-decoration: none; padding: .8rem .2rem; border-bottom: 1px solid var(--linha); }
+  .lateral .podcast .secao { display: block; font: 700 .66rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--destaque); }
+  .lateral .podcast .tit { display: block; font-size: 1rem; line-height: 1.28; font-weight: 700; margin-top: .15rem; color: var(--tinta); }
+  .lateral .podcast:hover .tit { color: var(--destaque); }
+  .rodape { margin-top: 3rem; border-top: 3px solid var(--tinta); background: var(--painel); font: .9rem/1.5 var(--sans); color: var(--suave); }
+  .rodape-in { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 2rem; padding: 2rem 2rem 1rem; }
+  .rodape p { margin: 0 0 .3rem; }
+  .rodape a { color: var(--tinta); text-underline-offset: 3px; }
+  .rodape a:hover { color: var(--destaque); }
+  .rodape-titulo { font: 700 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--tinta); }
+  .rodape .rodape-fim { padding: 1rem 2rem 2rem; border-top: 1px solid var(--linha); margin: 0 2rem; padding-inline: 0; }
+
+  @media (max-width: 52rem) {
+    .miolo { grid-template-columns: 1fr; }
+    .lateral { position: static; padding: 1.25rem 1.25rem .5rem; }
+    .lateral, main { grid-column: 1; }
+    .lateral { grid-row: 1; }
+    main::after { display: none; }
+    main { grid-row: 2; border-right: 0; padding: 1rem 1.25rem 0; }
+  }
+</style>
