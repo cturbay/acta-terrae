@@ -2,107 +2,39 @@
 import Base from '../layouts/Base.astro';
 import { reportagens } from '../data/reportagens.js';
 const [destaque] = reportagens;
-const fotos = ['01', '02', '03', '04', '05', '06', '07'].map((n) => `/faixa/${n}.jpg`);
-const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
-// Temas já em preparo (só o nome do tema; títulos definitivos virão com cada reportagem)
-const embreve = [
-  { tema: 'Mudanças climáticas', cor: 'terra' },
-  { tema: 'As Barreiras do Brasil', cor: 'areia' },
-  { tema: 'Novas reportagens', cor: 'mata' },
-];
 ---
-<Base carrossel={false} revista={true}>
-  {destaque ? (
-    <a class="capa" href={`/reportagens/${destaque.slug}/`}>
-      {destaque.imagem && <img class="capa-img" src={destaque.imagem} alt="" />}
-      <div class="capa-scrim"></div>
-      <div class="capa-txt">
-        <p class="kicker">{destaque.secao} · Reportagem em destaque</p>
-        <h1>{destaque.titulo}</h1>
-        <p class="resumo">{destaque.resumo}</p>
-        <p class="autor">Por {destaque.autor}{destaque.data && ` · ${destaque.data}`}</p>
-        <span class="botao">Ler a reportagem →</span>
-      </div>
-    </a>
-  ) : (
-    <p class="vazio">As reportagens estão sendo reconstruídas.</p>
-  )}
+<Base>
+  <div class="capa">
+    {destaque ? (
+      <article class="destaque">
+        <a href={`/reportagens/${destaque.slug}/`}>
+          {destaque.imagem && <img src={destaque.imagem} alt="" />}
+          <p class="secao">{destaque.secao}</p>
+          <h1>{destaque.titulo}</h1>
+          <p class="resumo">{destaque.resumo}</p>
+          <p class="autor">Por {destaque.autor}{destaque.data && ` · ${destaque.data}`}</p>
+        </a>
+      </article>
+    ) : (
+      <p class="vazio">As reportagens estão sendo reconstruídas.</p>
+    )}
 
-  <section class="breve">
-    <div class="in">
-      <h2>Em preparo</h2>
-      <div class="cards">
-        {embreve.map((e) => (
-          <div class={`card ${e.cor}`}>
-            <span class="selo">Em breve</span>
-            <p class="tema">{e.tema}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="galeria" aria-label="Fotos do território">
-    <div class="tira">
-      {fotos.map((f) => <img src={f} alt="" loading="lazy" />)}
-    </div>
-  </section>
-
-  <section class="podcast">
-    <div class="in">
-      <p class="kicker">Podcast</p>
-      <h2>Uma Pedra no Caminho</h2>
-      <a class="botao claro" href={podcastUrl} target="_blank" rel="noopener">Ouvir no Spotify →</a>
-    </div>
-  </section>
-
-  <section class="quem-faz">
-    <div class="in">
-      <p class="kicker">Quem faz</p>
-      <p class="texto">Caio Gabrig Turbay é geólogo, ambientalista e professor da Universidade Federal do Sul da Bahia. Acredita em um mundo com obras verdadeiras, solidariedade e respeito.</p>
-      <a class="mais" href="/bio/">Ler a bio →</a>
-    </div>
-  </section>
+  </div>
 </Base>
 
 <style>
-  .capa { position: relative; display: flex; align-items: flex-end; height: min(90vh, 780px); min-height: 480px; background: #1d1a14; overflow: hidden; text-decoration: none; color: #fbf6ea; }
-  .capa-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .capa-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,12,8,.05) 0%, rgba(15,12,8,.35) 45%, rgba(15,12,8,.9) 100%); }
-  .capa .kicker { text-shadow: 0 1px 8px rgba(0,0,0,.7); }
-  .capa-txt { position: relative; width: 100%; max-width: 66rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(2rem, 6vw, 4rem); }
-  .kicker { font: 700 .78rem var(--sans); letter-spacing: .22em; text-transform: uppercase; color: #f0b48a; margin: 0 0 1rem; }
-  .capa h1 { font-family: var(--titulo); font-weight: 900; font-size: clamp(2.2rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: -.01em; margin: 0 0 1rem; max-width: 52rem; }
-  .capa:hover h1 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
-  .resumo { font-size: clamp(1.05rem, 2vw, 1.35rem); line-height: 1.55; color: #eadfca; margin: 0 0 1rem; max-width: 40rem; }
-  .autor { font: .85rem var(--sans); letter-spacing: .04em; color: #d6c9ae; margin: 0 0 1.4rem; }
-  .botao { display: inline-block; font: 700 .8rem var(--sans); letter-spacing: .14em; text-transform: uppercase; padding: .8rem 1.4rem; background: var(--destaque); color: #fff; border-radius: 2px; text-decoration: none; }
-  .botao.claro { background: #f0b48a; color: #1d1a14; }
-  .vazio { padding: 3rem 1.25rem; text-align: center; color: var(--suave); font-style: italic; }
-
-  .in { max-width: 66rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); }
-  .breve { padding: clamp(3rem, 7vw, 5rem) 0; background: var(--papel); }
-  .breve h2, .podcast h2 { font-family: var(--titulo); font-weight: 900; font-size: clamp(1.6rem, 3.4vw, 2.4rem); margin: 0 0 1.5rem; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
-  .card { min-height: 15rem; padding: 1.4rem; display: flex; flex-direction: column; justify-content: space-between; border-radius: 2px; }
-  .card.terra { background: #b4532a; color: #fbf1e4; }
-  .card.areia { background: #e6d9bf; color: #1d1a14; }
-  .card.mata { background: #1f2a21; color: #f1ead9; }
-  .selo { font: 700 .7rem var(--sans); letter-spacing: .22em; text-transform: uppercase; opacity: .8; }
-  .tema { font-family: var(--titulo); font-weight: 700; font-size: 1.7rem; line-height: 1.15; margin: 0; }
-
-  .galeria { background: #1d1a14; padding: 6px 0; overflow: hidden; }
-  .tira { display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; }
-  .tira img { height: clamp(170px, 28vw, 300px); width: auto; max-width: none; flex: none; scroll-snap-align: start; display: block; }
-
-  .podcast { background: #1f2a21; color: #f1ead9; padding: clamp(3.5rem, 8vw, 6rem) 0; }
-  .podcast p { margin: 0 0 1.4rem; font-size: 1.2rem; line-height: 1.55; max-width: 36rem; color: #d9d6c6; }
-  .podcast .kicker { margin-bottom: .8rem; }
-  .podcast h2 { margin-bottom: 1rem; color: #fbf6ea; }
-
-  .quem-faz { background: #e6d9bf; padding: clamp(3rem, 7vw, 5rem) 0; }
-  .quem-faz .kicker { color: #6e4a2c; }
-  .quem-faz .texto { font-family: var(--titulo); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.35; max-width: 44rem; margin: 0 0 1.2rem; }
-  .mais { font: 700 .85rem var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--destaque); text-decoration: none; }
-  .mais:hover { text-decoration: underline; }
+  .capa { max-width: 68rem; margin-inline: auto; }
+  .destaque a { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); column-gap: 2.5rem; align-content: start; }
+  .destaque a img { grid-row: 1 / span 6; }
+  .destaque a > :not(img) { grid-column: 2; }
+  
+  .destaque a { text-decoration: none; }
+  .destaque img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; background: var(--linha); }
+  .secao { font: 700 .72rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--destaque); margin: 1rem 0 .3rem; }
+  h1 { font-size: clamp(1.9rem, 4.2vw, 2.9rem); line-height: 1.08; margin: 0 0 .8rem; font-weight: 700; letter-spacing: -.01em; }
+  .destaque a:hover h1 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  @media (max-width: 60rem) { .destaque a { display: block; } }
+  .resumo { font-size: 1.15rem; color: var(--suave); margin: 0 0 .8rem; max-width: 40rem; }
+  .autor { font: .8rem var(--sans); color: var(--suave); margin: 0; }
+  .vazio { color: var(--suave); font-style: italic; }
 </style>

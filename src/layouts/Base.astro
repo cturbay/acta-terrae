@@ -191,8 +191,13 @@ const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
     .miolo { grid-template-columns: 1fr; }
     .lateral { position: static; padding: 1.25rem 1.25rem .5rem; }
     .lateral, main { grid-column: 1; }
-    .lateral { grid-row: 1; }
+    .lateral { grid-row: 2; border-top: 3px solid var(--tinta); margin-top: 1.5rem; }
     main::after { display: none; }
-    main { grid-row: 2; border-right: 0; padding: 1rem 1.25rem 0; }
+    main { grid-row: 1; border-right: 0; padding: 1rem 1.25rem 0; }
+  }
+  @media (max-width: 40rem) {
+    .marca { padding: .45rem .7rem .55rem; left: .6rem; }
+    .marca img { height: 34px; }
+    .faixa:not(.solo) { --faixa-base: 110px; }
   }
 </style>
