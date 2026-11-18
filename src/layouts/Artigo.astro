@@ -3,19 +3,24 @@ import Base from './Base.astro';
 import Compartilhar from '../components/Compartilhar.astro';
 // true = mostra a seção de comentários (o formulário ainda está desativado)
 const comentariosAbertos = true;
-const { titulo, secao, linhas = [], descricao, data } = Astro.props;
+const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLegenda } = Astro.props;
 ---
-<Base title={titulo} description={descricao} carrossel={false}>
+<Base title={titulo} description={descricao} carrossel={false} revista={true}>
   <article class="artigo">
-    <header class="cabeca">
-      <p class="kicker">{secao}</p>
-      <h1>{titulo}</h1>
-      <div class="creditos">
-        {linhas.map((l) => <p>{l}</p>)}
-        {data && <p>{data}</p>}
+    <header class="hero">
+      {capa && <img class="hero-img" src={capa} alt={capaAlt} />}
+      <div class="hero-scrim"></div>
+      <div class="hero-txt">
+        <p class="kicker">{secao}</p>
+        <h1>{titulo}</h1>
+        <div class="creditos">
+          {linhas.map((l) => <p>{l}</p>)}
+          {data && <p>{data}</p>}
+        </div>
       </div>
-      <div class="topo-compart"><Compartilhar titulo={titulo} /></div>
     </header>
+    {capaLegenda && <p class="hero-legenda">{capaLegenda}</p>}
+    <div class="topo-compart"><Compartilhar titulo={titulo} /></div>
     <div class="corpo">
       <slot />
     </div>
@@ -93,11 +98,11 @@ const { titulo, secao, linhas = [], descricao, data } = Astro.props;
 </script>
 
 <style is:global>
-  .artigo { padding-top: .5rem; }
-  .topo-compart { display: flex; justify-content: center; margin-top: 1.1rem; }
-  .fim-compart { max-width: 60rem; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--linha); }
+  .artigo { padding-top: 0; }
+  .topo-compart { display: flex; justify-content: center; margin: 2rem 0 1rem; padding: 0 1.25rem; }
+  .fim-compart { max-width: 45rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
   .fim-compart + .comentarios { margin-top: 1.5rem; }
-  .comentarios { max-width: 60rem; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--linha); }
+  .comentarios { max-width: 45rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
   .comentarios h2 { margin: 0 0 .5rem; font: 700 .8rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
   .comentarios .aviso { font: .92rem var(--sans); color: var(--suave); margin: 0 0 1rem; }
   .form-coment { display: grid; gap: .9rem; max-width: 36rem; }
@@ -111,41 +116,74 @@ const { titulo, secao, linhas = [], descricao, data } = Astro.props;
   .form-coment label { display: grid; gap: .3rem; font: 600 .85rem var(--sans); }
   .form-coment input, .form-coment textarea { font: 1rem var(--serif); padding: .55rem .7rem; border: 1px solid var(--linha); background: #fffaf0; border-radius: 3px; }
   .form-coment button { justify-self: start; font: 700 .85rem var(--sans); padding: .6rem 1.1rem; background: var(--destaque); color: #fff; border: 0; border-radius: 3px; }
-  .cabeca { max-width: 66rem; margin: 0 auto 2rem; text-align: center; }
-  .kicker { font: 700 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--destaque); margin: 0 0 .6rem; }
-  .cabeca h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.08; margin: 0 0 1rem; letter-spacing: -.01em; }
-  .creditos p { margin: 0; font: .85rem var(--sans); color: var(--suave); }
-  .corpo { max-width: 60rem; margin: 0 auto; font-size: 1.22rem; line-height: 1.72; }
-  .corpo p { margin: 0 0 1.25rem; hyphens: auto; }
-  .corpo > p:first-of-type::first-letter {
-    float: left; font-size: 4.2rem; line-height: .8; padding: .35rem .5rem 0 0; font-weight: 700;
-  }
+
+  /* ---------- Abertura ---------- */
+  .hero { position: relative; height: min(88vh, 760px); min-height: 460px; background: #1d1a14; overflow: hidden; display: flex; align-items: flex-end; }
+  .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,12,8,.10) 0%, rgba(15,12,8,.35) 45%, rgba(15,12,8,.88) 100%); }
+  .hero-txt { position: relative; width: 100%; max-width: 66rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(2rem, 6vw, 4rem); text-align: left; }
+  .hero .kicker { font: 700 .8rem var(--sans); letter-spacing: .22em; text-transform: uppercase; color: #f0b48a; margin: 0 0 1rem; }
+  .hero h1 { font-family: var(--titulo); font-weight: 900; font-size: clamp(2.2rem, 6.2vw, 4.75rem); line-height: 1.04; letter-spacing: -.01em; color: #fbf6ea; margin: 0; }
+  .hero .creditos { margin-top: 1.4rem; }
+  .hero .creditos p { font: .88rem var(--sans); letter-spacing: .04em; color: #e6dcc7; margin: 0 0 .2rem; }
+  .hero-legenda { max-width: 66rem; margin: .8rem auto 0; padding: 0 clamp(1.25rem, 4vw, 3rem); font: .82rem/1.55 var(--sans); color: var(--suave); }
+
+  /* ---------- Texto ---------- */
+  body.revista { overflow-x: clip; }
+  .corpo { max-width: 45rem; margin: 0 auto; padding: 1.5rem 1.25rem 0; font-size: 1.3rem; line-height: 1.7; }
+  .corpo p { margin: 0 0 1.6rem; hyphens: auto; }
+  .corpo > p:first-of-type::first-letter { float: left; font-family: var(--titulo); font-weight: 900; font-size: 6.2rem; line-height: .82; padding: .55rem .8rem 0 0; color: var(--destaque); }
   .corpo a { color: var(--destaque); text-underline-offset: 3px; overflow-wrap: anywhere; }
-  .corpo hr { border: 0; text-align: center; margin: 2.2rem 0; }
+  .corpo hr { border: 0; text-align: center; margin: 2.4rem 0; }
   .corpo hr::before { content: '· · ·'; letter-spacing: .6em; color: var(--suave); }
-  .corpo figure { margin: 2rem 0; }
+  .corpo figure { margin: 2.4rem 0; }
   .corpo figure img { display: block; width: 100%; }
-  .corpo figcaption { font: .85rem/1.5 var(--sans); color: var(--suave); margin-top: .6rem; }
+  .corpo figcaption { font: .85rem/1.6 var(--sans); color: var(--suave); margin-top: .8rem; }
   .corpo figure.alta img { max-width: 28rem; margin-inline: auto; }
-  .corpo figure.mapa img { max-width: min(100%, 43rem); }
-  .corpo figure.larga { margin-inline: -6rem; }
-  .corpo .entrevista { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 1.5rem; align-items: center; margin: 2.2rem -6rem; }
-  .corpo .entrevista img { display: block; width: 100%; }
-  .corpo .entrevista blockquote { margin: 0; padding-left: 1.1rem; border-left: 3px solid var(--destaque); font-size: 1.2rem; line-height: 1.5; }
-  .corpo .entrevista blockquote p { margin: 0 0 .8rem; font-style: italic; }
-  .corpo .entrevista.inverte img { order: 2; }
-  .corpo .entrevista.inverte blockquote { order: 1; }
-  .corpo .legenda-nome { font: 600 .82rem var(--sans); letter-spacing: .04em; color: var(--suave); text-align: left; }
+  .corpo figure.mapa img { max-width: min(100%, 43rem); margin-inline: auto; }
+  .corpo figure.larga { width: min(100vw, 62rem); margin-inline: calc(50% - min(50vw, 31rem)); padding-inline: 1.25rem; }
+  .corpo figure.larga img { width: 100%; }
+
+  /* Dado em destaque */
+  .corpo .faixa-dado { width: 100vw; margin: 2.6rem calc(50% - 50vw); background: #1f2a21; color: #f1ead9; padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 4rem); display: flex; flex-wrap: wrap; gap: 2.5rem 4rem; align-items: center; justify-content: center; }
+  .corpo .faixa-dado .dado { display: flex; flex-direction: column; }
+  .corpo .faixa-dado .num { font-family: var(--titulo); font-weight: 900; font-size: clamp(5rem, 14vw, 10.5rem); line-height: .95; color: #f0b48a; }
+  .corpo .faixa-dado .rot { font: 700 .8rem var(--sans); letter-spacing: .22em; text-transform: uppercase; color: #cfc6b0; margin-top: .5rem; }
+  .corpo .faixa-dado p { flex: 1 1 22rem; max-width: 34rem; margin: 0; font-size: 1.55rem; line-height: 1.5; hyphens: none; }
+
+  /* Foto em tela cheia com frase */
+  .corpo figure.foto-cheia { position: relative; width: 100vw; margin: 2.6rem calc(50% - 50vw) 0; padding-bottom: 0; }
+  .corpo figure.foto-cheia img { width: 100%; height: clamp(420px, 70vh, 640px); object-fit: cover; }
+  .corpo figure.foto-cheia::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); background: rgba(15,12,8,.6); pointer-events: none; }
+  .corpo figure.foto-cheia .frase { position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); z-index: 2; display: flex; align-items: center; justify-content: center; padding: 0 clamp(1.25rem, 5vw, 4rem); }
+  .corpo figure.foto-cheia .frase p { margin: 0; max-width: 56rem; text-align: center; font-family: var(--titulo); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.9rem); line-height: 1.22; color: #fbf6ea; hyphens: none; }
+  .corpo figure.foto-cheia figcaption { max-width: 45rem; margin: .8rem auto 2.6rem; padding: 0 1.25rem; }
+
+  /* Entrevistas em faixas de cor */
+  .corpo .entrevista { width: 100vw; margin: 2.6rem calc(50% - 50vw); display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; background: var(--fundo); color: var(--cor); }
+  .corpo .entrevista img { grid-column: 1; grid-row: 1; width: 100%; height: 100%; min-height: 420px; max-height: 760px; object-fit: cover; }
+  .corpo .entrevista blockquote { grid-column: 2; grid-row: 1; margin: 0; padding: clamp(2.2rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem); display: flex; flex-direction: column; justify-content: center; border: 0; font-family: var(--titulo); font-style: italic; font-weight: 700; font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.4; }
+  .corpo .entrevista blockquote::before { content: 'Vozes da região'; font: 700 .72rem var(--sans); font-style: normal; letter-spacing: .22em; text-transform: uppercase; color: var(--rotulo); margin-bottom: 1.4rem; }
+  .corpo .entrevista blockquote p { margin: 0 0 1rem; font-style: italic; hyphens: none; }
+  .corpo .entrevista .legenda-nome { font: 600 .9rem var(--sans); font-style: normal; letter-spacing: .02em; color: var(--sub); margin-top: .8rem; }
+  .corpo .entrevista.wil img, .corpo .entrevista.vinicius img { grid-column: 2; }
+  .corpo .entrevista.wil blockquote, .corpo .entrevista.vinicius blockquote { grid-column: 1; }
+  .corpo .entrevista.ipe { --fundo: #b4532a; --cor: #fbf1e4; --sub: #ffe7d3; --rotulo: #ffd9bd; }
+  .corpo .entrevista.wil { --fundo: #e6d9bf; --cor: #1d1a14; --sub: #3a3226; --rotulo: #6e4a2c; }
+  .corpo .entrevista.fernando { --fundo: #1f2a21; --cor: #f1ead9; --sub: #c9d1c3; --rotulo: #f0b48a; }
+  .corpo .entrevista.vinicius { --fundo: #2b2620; --cor: #f6f1e7; --sub: #d9ceb8; --rotulo: #f0b48a; }
+
   .corpo .licenca { display: flex; align-items: center; gap: .8rem; font: .82rem/1.5 var(--sans); color: var(--suave); }
   .corpo .licenca img { width: 66px; height: auto; flex: none; }
-  .corpo .bio { font-size: 1rem; }
-  .corpo .refs { font-size: .9rem; line-height: 1.55; }
-  .corpo .refs p { margin-bottom: .6rem; }
-  @media (max-width: 78rem) {
-    .corpo figure.larga, .corpo .entrevista { margin-inline: 0; }
-  }
-  @media (max-width: 40rem) {
+  .corpo .bio { font: 1rem/1.7 var(--sans); background: #e6d9bf; padding: 1.6rem 1.8rem; margin: 2rem 0; }
+  .corpo .bio p { margin: 0; }
+  .corpo .refs { font: .9rem/1.6 var(--sans); color: #4a4235; }
+  .corpo .refs p { margin-bottom: .7rem; }
+  @media (max-width: 48rem) {
     .corpo .entrevista { grid-template-columns: 1fr; }
-    .corpo .entrevista.inverte img, .corpo .entrevista.inverte blockquote { order: initial; }
+    .corpo .entrevista img, .corpo .entrevista.wil img, .corpo .entrevista.vinicius img { grid-column: 1; grid-row: 1; min-height: 300px; max-height: 420px; }
+    .corpo .entrevista blockquote, .corpo .entrevista.wil blockquote, .corpo .entrevista.vinicius blockquote { grid-column: 1; grid-row: 2; }
+    .corpo figure.larga { margin-inline: calc(50% - 50vw); width: 100vw; padding-inline: 0; }
+    .corpo figure.larga figcaption { padding-inline: 1.25rem; }
   }
 </style>
