@@ -112,7 +112,7 @@ const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
   .faixa { position: sticky; top: 0; z-index: 10; height: var(--faixa); background: var(--papel); border-bottom: 1px solid var(--linha); }
   .faixa::after { content: ''; position: absolute; left: clamp(1.5rem, 8vw, 9rem); right: clamp(1.5rem, 8vw, 9rem); bottom: 8px; height: 5px; background: var(--destaque); border-radius: 3px; }
   .reel { position: absolute; top: 0; left: 0; right: 0; bottom: 22px; overflow: hidden; background: var(--papel); }
-  .trilho { display: flex; height: 100%; width: max-content; animation: rolar 155s linear infinite; }
+  .trilho { display: flex; height: 100%; width: max-content; animation: rolar 125s linear infinite; }
   .trilho img { height: 100%; width: auto; max-width: none; margin-right: 4px; flex: none; display: block; }
   .faixa:hover .trilho { animation-play-state: paused; }
   @keyframes rolar { to { transform: translateX(-50%); } }
