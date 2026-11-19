@@ -3,19 +3,33 @@ import Base from '../layouts/Base.astro';
 import { ui } from '../i18n.js';
 const { lang = 'pt' } = Astro.props;
 const T = ui[lang];
+const alt = lang === 'en' ? 'Caio Gabrig Turbay at the helm of a sailboat.' : 'Caio Gabrig Turbay ao leme de um veleiro.';
 ---
 <Base title={T.bioTitulo} description={T.bioDesc} lang={lang}>
   <article class="bio-pagina">
     <p class="kicker">{T.quemFaz}</p>
     <h1>Caio Gabrig Turbay</h1>
-    {T.bioTexto.map((par) => <p set:html={par} />)}
+    <div class="bio-corpo">
+      <figure class="bio-foto"><img src="/bio/caio.jpg" alt={alt} width="900" height="1125" /></figure>
+      <div class="bio-texto">
+        {T.bioTexto.map((par) => <p set:html={par} />)}
+      </div>
+    </div>
   </article>
 </Base>
 
 <style>
-  .bio-pagina { max-width: 46rem; margin: 0 auto; }
+  .bio-pagina { max-width: 56rem; margin: 0 auto; }
   .kicker { font: 700 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--destaque); margin: 0 0 .6rem; }
-  h1 { font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.1; margin: 0 0 1.2rem; }
-  p { font-size: 1.15rem; line-height: 1.7; }
+  h1 { font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.1; margin: 0 0 1.6rem; }
+  .bio-corpo { display: grid; grid-template-columns: 16rem minmax(0, 1fr); gap: 2.2rem; align-items: start; }
+  .bio-foto { margin: 0; }
+  .bio-foto img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: 0 6px 22px rgba(42, 33, 24, .22); }
+  .bio-texto p { font-size: 1.15rem; line-height: 1.7; margin: 0 0 1.1rem; }
+  .bio-texto p:first-child { margin-top: 0; }
   .bio-pagina :global(a) { color: var(--destaque); }
+  @media (max-width: 40rem) {
+    .bio-corpo { grid-template-columns: 1fr; gap: 1.4rem; }
+    .bio-foto { max-width: 17rem; }
+  }
 </style>
