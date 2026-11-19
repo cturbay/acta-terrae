@@ -184,8 +184,10 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   .corpo .videos iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
   .corpo .licenca { display: flex; align-items: center; gap: .8rem; font: .82rem/1.5 var(--sans); color: var(--suave); }
   .corpo .licenca img { width: 66px; height: auto; flex: none; }
-  .corpo .bio { font: 1rem/1.7 var(--sans); background: #e6d9bf; padding: 1.6rem 1.8rem; margin: 2rem 0; }
-  .corpo .bio p { margin: 0; }
+  .corpo .bio { margin: 2.6rem 0; padding: 1.4rem 0 .2rem; border-top: 3px solid var(--tinta); }
+  .corpo .bio::before { content: attr(data-rotulo); display: block; margin-bottom: .6rem; font: 700 .75rem var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--destaque); }
+  .corpo .bio p { margin: 0; font: italic 1.15rem/1.65 var(--titulo, Georgia, serif); color: #3a3328; max-width: 46rem; }
+  .corpo .bio strong { font-weight: 400; }
   .corpo .refs { font: .9rem/1.6 var(--sans); color: #4a4235; }
   .corpo .refs p { margin-bottom: .7rem; }
   @media (max-width: 48rem) {
