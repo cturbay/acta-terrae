@@ -4,7 +4,7 @@ export const reportagens = [
   {
     slug: 'erosao-costeira-sul-da-bahia',
     secao: 'Mudanças climáticas',
-    titulo: 'Erosão costeira: causas e desafios para o século XXI',
+    titulo: 'Erosão costeira: causas e desafios para o século 21',
     resumo:
       'Muros, cercas e construções à beira-mar enfraquecem a cada maré forte. O que explica o recuo da costa no litoral do sul da Bahia?',
     autor: 'Caio Gabrig Turbay',
