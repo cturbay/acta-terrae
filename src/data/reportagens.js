@@ -4,14 +4,16 @@ export const reportagens = [
   {
     slug: 'erosao-costeira-sul-da-bahia',
     secao: 'Mudanças climáticas',
-    titulo: 'O que está causando a erosão costeira no sul da Bahia?',
+    titulo: 'Erosão costeira: causas e desafios para o século XXI',
     resumo:
       'Muros, cercas e construções à beira-mar enfraquecem a cada maré de sizígia. O que explica o recuo da costa no litoral do sul da Bahia?',
     autor: 'Caio Gabrig Turbay',
+    data: 'Agosto de 2023',
     imagem: '/reportagens/erosao-costeira-sul-da-bahia/abertura.jpg',
     en: {
       secao: 'Climate change',
-      titulo: 'What is causing coastal erosion in southern Bahia?',
+      data: 'August 2023',
+      titulo: 'Coastal erosion: causes and challenges for the 21st century',
       resumo:
         'Walls, fences and seafront buildings are weakened with every spring tide. What explains the retreat of the coast in southern Bahia?',
     },
