@@ -2,6 +2,21 @@
 // Para publicar uma nova: crie src/pages/reportagens/<slug>/index.astro e adicione um item aqui.
 export const reportagens = [
   {
+    slug: 'erosao-costeira-sul-da-bahia',
+    secao: 'Mudanças climáticas',
+    titulo: 'O que está causando a erosão costeira no sul da Bahia?',
+    resumo:
+      'Muros, cercas e construções à beira-mar enfraquecem a cada maré de sizígia. O que explica o recuo da costa no litoral do sul da Bahia?',
+    autor: 'Caio Gabrig Turbay',
+    imagem: '/reportagens/erosao-costeira-sul-da-bahia/abertura.jpg',
+    en: {
+      secao: 'Climate change',
+      titulo: 'What is causing coastal erosion in southern Bahia?',
+      resumo:
+        'Walls, fences and seafront buildings are weakened with every spring tide. What explains the retreat of the coast in southern Bahia?',
+    },
+  },
+  {
     slug: 'desmatamento-arraial',
     secao: 'Meio ambiente',
     titulo: "Derrubada das florestas avança em Arraial D'Ajuda, Bahia",
