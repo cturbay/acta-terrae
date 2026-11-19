@@ -144,7 +144,8 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   .corpo figure img { display: block; width: 100%; }
   .corpo figcaption { font: .85rem/1.6 var(--sans); color: var(--suave); margin-top: .8rem; }
   .corpo figure.alta img { max-width: 28rem; margin-inline: auto; }
-  .corpo figure.mapa img { max-width: min(100%, 43rem); margin-inline: auto; }
+  .corpo figure.mapa { max-width: min(100%, 56rem); margin-inline: auto; }
+  .corpo figure.mapa.estreita { max-width: min(100%, 43rem); }
   .corpo figure.larga { width: min(100vw, 62rem); margin-inline: calc(50% - min(50vw, 31rem)); padding-inline: 1.25rem; }
   .corpo figure.larga img { width: 100%; }
 
