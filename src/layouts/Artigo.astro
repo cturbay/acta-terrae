@@ -159,8 +159,8 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   /* Foto em tela cheia com frase */
   .corpo figure.foto-cheia { position: relative; width: 100vw; margin: 2.6rem calc(50% - 50vw) 0; padding-bottom: 0; }
   .corpo figure.foto-cheia img { width: 100%; height: clamp(420px, 70vh, 640px); object-fit: cover; }
-  .corpo figure.foto-cheia::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); background: radial-gradient(ellipse 62% 42% at 50% 50%, rgba(15,12,8,.5) 0%, rgba(15,12,8,.28) 60%, rgba(15,12,8,0) 100%), rgba(15,12,8,.26); pointer-events: none; }
-  .corpo figure.foto-cheia .frase { position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); z-index: 2; display: flex; align-items: center; justify-content: center; padding: 0 clamp(1.25rem, 5vw, 4rem); }
+  .corpo figure.foto-cheia::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); background: radial-gradient(ellipse 62% 36% at 50% 27%, rgba(15,12,8,.5) 0%, rgba(15,12,8,.28) 60%, rgba(15,12,8,0) 100%), rgba(15,12,8,.26); pointer-events: none; }
+  .corpo figure.foto-cheia .frase { position: absolute; left: 0; right: 0; top: 0; height: clamp(420px, 70vh, 640px); z-index: 2; display: flex; align-items: flex-start; justify-content: center; padding: 15% clamp(1.25rem, 5vw, 4rem) 0; }
   .corpo figure.foto-cheia .frase p { margin: 0; max-width: 56rem; text-align: center; font-family: var(--titulo); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.9rem); line-height: 1.22; color: #fbf6ea; hyphens: none; text-shadow: 0 2px 14px rgba(0,0,0,.65), 0 0 3px rgba(0,0,0,.5); }
   .corpo figure.foto-cheia figcaption { max-width: 60rem; margin: .8rem auto 2.6rem; padding: 0 1.25rem; }
 
