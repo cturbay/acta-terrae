@@ -4,7 +4,7 @@ import Compartilhar from '../components/Compartilhar.astro';
 // true = mostra a seção de comentários (o formulário ainda está desativado)
 const comentariosAbertos = true;
 import { ui } from '../i18n.js';
-const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLegenda, lang = 'pt' } = Astro.props;
+const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLegenda, claro = false, lang = 'pt' } = Astro.props;
 const T = ui[lang];
 // os comentários são compartilhados entre os idiomas: usam sempre o endereço em português
 const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
@@ -13,7 +13,7 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   <article class="artigo">
     <header class="hero">
       {capa && <img class="hero-img" src={capa} alt={capaAlt} />}
-      <div class="hero-scrim"></div>
+      <div class:list={["hero-scrim", { claro }]}></div>
       <div class="hero-txt">
         <p class="kicker">{secao}</p>
         <h1>{titulo}</h1>
@@ -125,9 +125,10 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   .hero { position: relative; height: min(88vh, 760px); min-height: 460px; background: #1d1a14; overflow: hidden; display: flex; align-items: flex-end; }
   .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,12,8,.10) 0%, rgba(15,12,8,.35) 45%, rgba(15,12,8,.88) 100%); }
+  .hero-scrim.claro { background: linear-gradient(180deg, rgba(15,12,8,0) 0%, rgba(15,12,8,0) 40%, rgba(15,12,8,.5) 66%, rgba(15,12,8,.84) 100%); }
   .hero-txt { position: relative; width: 100%; max-width: 66rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(2rem, 6vw, 4rem); text-align: left; }
   .hero .kicker { font: 700 .8rem var(--sans); letter-spacing: .22em; text-transform: uppercase; color: #f0b48a; margin: 0 0 1rem; }
-  .hero h1 { font-family: var(--titulo); font-weight: 900; font-size: clamp(2.2rem, 6.2vw, 4.75rem); line-height: 1.04; letter-spacing: -.01em; color: #fbf6ea; margin: 0; }
+  .hero h1 { font-family: var(--titulo); font-weight: 900; font-size: clamp(2.2rem, 6.2vw, 4.75rem); line-height: 1.04; letter-spacing: -.01em; color: #fbf6ea; margin: 0; text-shadow: 0 2px 16px rgba(0,0,0,.55); }
   .hero .creditos { margin-top: 1.4rem; }
   .hero .creditos p { font: .88rem var(--sans); letter-spacing: .04em; color: #e6dcc7; margin: 0 0 .2rem; }
   .hero-legenda { max-width: 66rem; margin: .8rem auto 0; padding: 0 clamp(1.25rem, 4vw, 3rem); font: 1rem/1.55 var(--sans); color: var(--suave); }
