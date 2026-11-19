@@ -8,8 +8,7 @@ const T = ui[lang];
   <article class="bio-pagina">
     <p class="kicker">{T.quemFaz}</p>
     <h1>Caio Gabrig Turbay</h1>
-    <p>{T.bioTexto}</p>
-    <p class="breve-bio">{T.bioBreve}</p>
+    {T.bioTexto.map((par) => <p set:html={par} />)}
   </article>
 </Base>
 
@@ -18,5 +17,5 @@ const T = ui[lang];
   .kicker { font: 700 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--destaque); margin: 0 0 .6rem; }
   h1 { font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.1; margin: 0 0 1.2rem; }
   p { font-size: 1.15rem; line-height: 1.7; }
-  .breve-bio { color: var(--suave); font: .95rem var(--sans); }
+  .bio-pagina :global(a) { color: var(--destaque); }
 </style>

@@ -12,7 +12,7 @@ export const ui = {
     ouca: 'Ouça',
     breve: 'Novas reportagens em breve.',
     quemFaz: 'Sobre o autor',
-    quemFazTexto: 'Caio Gabrig Turbay é geólogo, ambientalista e professor universitário.',
+    quemFazTexto: 'Caio Gabrig Turbay é geólogo, professor universitário, viajante e velejador. Criado entre barcos e rochas em Angra dos Reis (RJ), trabalha com sedimentos, costas e o mar.',
     lerBio: 'Ler a bio →',
     voltar: '← Início',
     contato: 'Contato',
@@ -35,8 +35,12 @@ export const ui = {
     erroEnvio: 'Não foi possível enviar agora. Tente de novo mais tarde.',
     bioTitulo: 'Bio',
     bioDesc: 'Sobre o autor do Acta Terrae.',
-    bioTexto: 'Geólogo, ambientalista e professor universitário. Acredita em um mundo com obras verdadeiras, solidariedade e respeito.',
-    bioBreve: 'A biografia completa será escrita aqui em breve.',
+    bioTexto: [
+      'Caio Gabrig Turbay nasceu em Vitória (ES), mas aos dois anos mudou-se para Angra dos Reis (RJ), onde cresceu entre barcos, rochas, praias, ilhas e Mata Atlântica. Dessa infância à beira-mar veio a vocação: formou-se geólogo pela Universidade Federal Rural do Rio de Janeiro e fez mestrado e doutorado em sedimentologia e petrologia na Universidade do Estado do Rio de Janeiro (UERJ).',
+      'Por anos atuou na iniciativa privada, em geologia e geofísica marinha, geologia costeira e ambiental e exploração mineral. Há 20 anos é professor de universidades públicas federais, a UFES e a UFSB. Suas pesquisas incluem a geologia marinha do Banco Royal Charlotte, no sul da Bahia, e a sedimentologia, a petrologia e a estratigrafia do Grupo Barreiras.',
+      'Fora da sala de aula, é viajante, velejador e construtor de barcos, além de espiritualista e amante da natureza. Constrói artesanalmente o veleiro Camurim-Açu, concebido como plataforma de pesquisa para expedições de geologia marinha e costeira ao longo do litoral. Também faz o podcast <a href="https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL" target="_blank" rel="noopener">Uma Pedra no Caminho</a>.',
+      'É casado com Erica Munaro e pai de dois filhos. Acredita em um mundo com obras verdadeiras, solidariedade e respeito.',
+    ],
   },
   en: {
     htmlLang: 'en',
@@ -50,7 +54,7 @@ export const ui = {
     ouca: 'Listen',
     breve: 'New stories coming soon.',
     quemFaz: 'About the author',
-    quemFazTexto: 'Caio Gabrig Turbay is a geologist, environmentalist and university professor.',
+    quemFazTexto: 'Caio Gabrig Turbay is a geologist, university professor, traveler and sailor. Raised among boats and rocks in Angra dos Reis (RJ), he works with sediments, coasts and the sea.',
     lerBio: 'Read the bio →',
     voltar: '← Home',
     contato: 'Contact',
@@ -73,8 +77,12 @@ export const ui = {
     erroEnvio: 'We could not send it right now. Please try again later.',
     bioTitulo: 'Bio',
     bioDesc: 'The person behind Acta Terrae.',
-    bioTexto: 'Geologist, environmentalist and university professor. He believes in a world of true deeds, solidarity and respect.',
-    bioBreve: 'The full biography will be written here soon.',
+    bioTexto: [
+      'Caio Gabrig Turbay was born in Vitória (ES), but at the age of two moved to Angra dos Reis (RJ), where he grew up among boats, rocks, beaches, islands and the Atlantic Forest. That childhood by the sea shaped his calling: he graduated as a geologist from the Federal Rural University of Rio de Janeiro and earned his master’s and doctorate in sedimentology and petrology at the State University of Rio de Janeiro (UERJ).',
+      'For years he worked in the private sector in marine geology and geophysics, coastal and environmental geology, and mineral exploration. For 20 years he has been a professor at Brazilian federal public universities, UFES and UFSB. His research includes the marine geology of the Royal Charlotte Bank, in southern Bahia, and the sedimentology, petrology and stratigraphy of the Barreiras Group.',
+      'Outside the classroom, he is a traveler, sailor and boat builder, as well as a spiritual seeker and nature lover. He is hand-building the sailboat Camurim-Açu, designed as a research platform for marine and coastal geology expeditions along the coast. He also makes the podcast <a href="https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL" target="_blank" rel="noopener">Uma Pedra no Caminho</a> (in Portuguese).',
+      'He is married to Erica Munaro and is the father of two children. He believes in a world of true deeds, solidarity and respect.',
+    ],
   },
 };
 
