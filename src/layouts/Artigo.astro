@@ -191,6 +191,12 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   .corpo .videos iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
   .corpo .licenca { display: flex; align-items: center; gap: .8rem; font: .82rem/1.5 var(--sans); color: var(--suave); }
   .corpo .licenca img { width: 66px; height: auto; flex: none; }
+  .corpo .ouca { display: block; margin: 2.6rem 0 0; padding: 1.2rem 1.4rem; background: var(--painel, #ece3d1); border-left: 4px solid var(--destaque); text-decoration: none; color: var(--tinta); }
+  .corpo .ouca span { display: block; }
+  .corpo .ouca-rotulo { font: 700 .75rem var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--destaque); margin-bottom: .35rem; }
+  .corpo .ouca-tit { font: 700 1.25rem/1.3 var(--titulo, Georgia, serif); }
+  .corpo .ouca-sub { font: .88rem var(--sans); color: var(--suave); margin-top: .3rem; }
+  .corpo .ouca:hover .ouca-tit { color: var(--destaque); text-decoration: underline; text-underline-offset: 3px; }
   .corpo .bio { margin: 2.6rem 0; padding: 1.4rem 0 .2rem; border-top: 3px solid var(--tinta); }
   .corpo .bio::before { content: attr(data-rotulo); display: block; margin-bottom: .6rem; font: 700 .75rem var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--destaque); }
   .corpo .bio p { margin: 0; font: italic 1.15rem/1.65 var(--titulo, Georgia, serif); color: #3a3328; max-width: 46rem; }
