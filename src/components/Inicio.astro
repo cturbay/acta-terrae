@@ -36,8 +36,8 @@ const [destaque] = reportagens.map((r) => traduz(r, lang));
   .capa { margin: 0; flex: 1; display: flex; flex-direction: column; align-self: stretch; }
   .destaque { flex: 1; display: flex; }
   .destaque a { flex: 1; }
-  .destaque a { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: max(30rem, calc(100svh - var(--faixa))); padding: clamp(1.4rem, 4vw, 3.5rem); color: #fbf6ea; text-decoration: none; overflow: hidden; background: #2a241b; }
-  .destaque a::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,12,8,.88) 0%, rgba(15,12,8,.62) 38%, rgba(15,12,8,.12) 75%, rgba(15,12,8,0) 100%); pointer-events: none; }
+  .destaque a { position: relative; display: flex; flex-direction: column; --t: max(8rem, calc(100svh - var(--faixa) - 18rem)); justify-content: flex-start; min-height: max(30rem, calc(100svh - var(--faixa))); padding: clamp(1.4rem, 4vw, 3.5rem); padding-top: var(--t); padding-bottom: 2.5rem; color: #fbf6ea; text-decoration: none; overflow: hidden; background: #2a241b; }
+  .destaque a::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15,12,8,0) 0, rgba(15,12,8,0) calc(var(--t) - 7rem), rgba(15,12,8,.66) calc(var(--t) + 3rem), rgba(15,12,8,.6) calc(var(--t) + 10rem), rgba(15,12,8,.22) calc(var(--t) + 19rem), rgba(15,12,8,.12) 100%); pointer-events: none; }
   .destaque img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
   .destaque a:hover img { transform: scale(1.03); }
   .destaque a > :not(img) { position: relative; z-index: 2; max-width: 44rem; }
