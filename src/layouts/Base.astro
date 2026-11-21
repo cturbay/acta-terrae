@@ -231,6 +231,10 @@ const podcastUrl = 'https://open.spotify.com/show/1SbQu9mdo9IJvrcd676tRL';
 
   @media (max-width: 52rem) {
     .miolo { grid-template-columns: 1fr; }
+    /* revista no celular: a faixa cresce para caber logo, idioma e menu, sem invadir a foto */
+    body.revista .faixa { height: auto; min-height: var(--faixa); padding-bottom: .7rem; gap: .35rem 1rem; }
+    body.revista .idioma { order: 2; margin-left: auto; }
+    body.revista .nav-revista { order: 3; width: 100%; margin-left: 0; padding-inline: clamp(.75rem, 3vw, 2rem); gap: .4rem 1.2rem; }
     .lateral { position: static; padding: 1.25rem 1.25rem .5rem; }
     .lateral, main { grid-column: 1; }
     .lateral { grid-row: 2; border-top: 3px solid var(--tinta); margin-top: 1.5rem; }
