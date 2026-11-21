@@ -4,7 +4,7 @@ export const reportagens = [
   {
     slug: 'barreiras-costa-pataxo',
     secao: 'Território e história',
-    titulo: 'As barreiras da costa pataxó',
+    titulo: 'As barreiras da Costa Pataxó',
     resumo:
       'As falésias coloridas do sul da Bahia guardam milhões de anos de história. Do clima do passado à floresta, dos pataxós à especulação imobiliária, o que está em jogo na costa sul da Bahia?',
     autor: 'Caio Gabrig Turbay',
@@ -13,7 +13,7 @@ export const reportagens = [
     en: {
       secao: 'Territory and history',
       data: 'May 2025',
-      titulo: 'The barriers of the Pataxó coast',
+      titulo: 'The barriers of the Pataxó Coast',
       resumo:
         'The colourful cliffs of southern Bahia hold millions of years of history. From the climate of the past to the forest, from the Pataxó to real estate speculation, what is at stake on the southern Bahia coast?',
     },
