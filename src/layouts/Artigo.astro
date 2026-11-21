@@ -6,10 +6,11 @@ const comentariosAbertos = true;
 import { ui } from '../i18n.js';
 const { titulo, secao, linhas = [], descricao, data, capa, capaAlt = '', capaLegenda, claro = false, lang = 'pt' } = Astro.props;
 const T = ui[lang];
+const slugOg = capa.split('/')[2];
 // os comentários são compartilhados entre os idiomas: usam sempre o endereço em português
 const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
 ---
-<Base title={titulo} description={descricao} carrossel={false} revista={true} lang={lang}>
+<Base title={titulo} description={descricao} imagem={`/og/${slugOg}.jpg`} carrossel={false} revista={true} lang={lang}>
   <article class="artigo">
     <header class="hero">
       {capa && <img class="hero-img" src={capa} alt={capaAlt} />}
