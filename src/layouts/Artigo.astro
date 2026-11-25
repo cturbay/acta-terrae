@@ -149,6 +149,11 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   .corpo figure.alta.mapa img { max-width: min(100%, 43rem); }
   .corpo figure.mapa { max-width: min(100%, 56rem); margin-inline: auto; }
   .corpo figure.mapa.estreita { max-width: min(100%, 46rem); }
+  .corpo figure.media { max-width: min(100%, 46rem); margin-inline: auto; }
+  .corpo figure.par { max-width: min(100%, 56rem); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
+  .corpo figure.par > div { margin: 0; }
+  .corpo figure.par img { aspect-ratio: 4 / 3; object-fit: cover; }
+  @media (max-width: 40rem) { .corpo figure.par { grid-template-columns: 1fr; gap: 1.6rem; } }
   .corpo figure.larga { width: min(100vw, 62rem); margin-inline: calc(50% - min(50vw, 31rem)); padding-inline: 1.25rem; }
   .corpo figure.larga img { width: 100%; }
 
