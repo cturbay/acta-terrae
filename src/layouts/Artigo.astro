@@ -105,9 +105,9 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
 <style is:global>
   .artigo { padding-top: 0; }
   .topo-compart { display: flex; justify-content: center; margin: 2rem 0 1rem; padding: 0 1.25rem; }
-  .fim-compart { max-width: 60rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
+  .fim-compart { max-width: 64rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
   .fim-compart + .comentarios { margin-top: 1.5rem; }
-  .comentarios { max-width: 60rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
+  .comentarios { max-width: 64rem; margin: 3rem auto 0; padding: 1.5rem 1.25rem 0; border-top: 1px solid var(--linha); }
   .comentarios h2 { margin: 0 0 .5rem; font: 700 .8rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
   .comentarios .aviso { font: .92rem var(--sans); color: var(--suave); margin: 0 0 1rem; }
   .form-coment { display: grid; gap: .9rem; max-width: 36rem; }
@@ -136,7 +136,7 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
 
   /* ---------- Texto ---------- */
   body.revista { overflow-x: clip; }
-  .corpo { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1.25rem 0; font-size: 1.22rem; line-height: 1.72; }
+  .corpo { max-width: 64rem; margin: 0 auto; padding: 1.5rem 1.25rem 0; font-size: 1.22rem; line-height: 1.72; }
   .corpo p { margin: 0 0 1.6rem; hyphens: auto; }
   .corpo > p:first-of-type::first-letter { float: left; font-family: var(--titulo); font-weight: 900; font-size: 6.2rem; line-height: .82; padding: .55rem .8rem 0 0; color: var(--destaque); }
   .corpo a { color: var(--destaque); text-underline-offset: 3px; overflow-wrap: anywhere; }
@@ -147,14 +147,14 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
   .corpo figcaption { font: 1rem/1.55 var(--sans); color: var(--suave); margin-top: .8rem; text-align: justify; hyphens: auto; }
   .corpo figure.alta img { max-width: 28rem; margin-inline: auto; }
   .corpo figure.alta.mapa img { max-width: min(100%, 43rem); }
-  .corpo figure.mapa { max-width: min(100%, 56rem); margin-inline: auto; }
+  .corpo figure.mapa { max-width: 100%; margin-inline: auto; }
   .corpo figure.mapa.estreita { max-width: min(100%, 46rem); }
-  .corpo figure.media { max-width: min(100%, 46rem); margin-inline: auto; }
-  .corpo figure.par { max-width: min(100%, 56rem); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
+  .corpo figure.media { max-width: 100%; margin-inline: auto; }
+  .corpo figure.par { max-width: 100%; margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
   .corpo figure.par > div { margin: 0; }
   .corpo figure.par img { aspect-ratio: 4 / 3; object-fit: cover; }
   @media (max-width: 40rem) { .corpo figure.par { grid-template-columns: 1fr; gap: 1.6rem; } }
-  .corpo figure.larga { width: min(100vw, 62rem); margin-inline: calc(50% - min(50vw, 31rem)); padding-inline: 1.25rem; }
+  .corpo figure.larga { width: min(100vw, 66rem); margin-inline: calc(50% - min(50vw, 33rem)); padding-inline: 1.25rem; }
   .corpo figure.larga img { width: 100%; }
 
   /* Dado em destaque */
@@ -176,7 +176,7 @@ const paginaComent = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
     .corpo figure.foto-cheia .frase p { font-size: clamp(1.7rem, 3vw, 2.6rem); }
   }
   .corpo figure.foto-cheia.sem-legenda { margin-bottom: 2.6rem; }
-  .corpo figure.foto-cheia figcaption { max-width: 60rem; margin: .8rem auto 2.6rem; padding: 0 1.25rem; }
+  .corpo figure.foto-cheia figcaption { max-width: 64rem; margin: .8rem auto 2.6rem; padding: 0 1.25rem; }
 
   /* Entrevistas em faixas de cor */
   .corpo .entrevista { width: 100vw; margin: 2.6rem calc(50% - 50vw); display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; background: var(--fundo); color: var(--cor); }
