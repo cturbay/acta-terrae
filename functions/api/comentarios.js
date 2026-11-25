@@ -18,7 +18,29 @@ export async function onRequestGet({ request, env }) {
   return json(results);
 }
 
-export async function onRequestPost({ request, env }) {
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+// Aviso por e-mail (Resend). Só roda se RESEND_API_KEY estiver configurada; qualquer falha é ignorada
+// para nunca impedir o comentário de ser guardado.
+async function avisarPorEmail(env, { pagina, nome, texto }) {
+  if (!env.RESEND_API_KEY) return;
+  const para = env.AVISO_EMAIL_PARA || 'actaterrae@gmail.com';
+  const de = env.AVISO_EMAIL_DE || 'Acta Terrae <onboarding@resend.dev>';
+  const site = env.SITE_URL || 'https://actaterrae.com.br';
+  const html =
+    `<p><strong>${esc(nome)}</strong> comentou em <a href="${site}${pagina}">${esc(pagina)}</a>:</p>` +
+    `<blockquote style="margin:0;padding:.6rem 1rem;border-left:3px solid #b4532a;background:#f6f1e7;white-space:pre-wrap">${esc(texto)}</blockquote>` +
+    `<p>O comentário está aguardando a sua aprovação. <a href="${site}/admin/">Abrir o painel de moderação</a></p>`;
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ from: de, to: [para], subject: `Novo comentário de ${nome.slice(0, 40)} – Acta Terrae`, html }),
+    });
+  } catch {}
+}
+
+export async function onRequestPost({ request, env, waitUntil }) {
   let corpo;
   try {
     corpo = await request.json();
@@ -50,5 +72,8 @@ export async function onRequestPost({ request, env }) {
   if (n >= 30) return json({ erro: 'Muitos comentários aguardando aprovação. Tente novamente mais tarde.' }, 429);
 
   await env.DB.prepare('INSERT INTO comentarios (pagina, nome, texto) VALUES (?, ?, ?)').bind(pagina, nome, texto).run();
+  const aviso = avisarPorEmail(env, { pagina, nome, texto });
+  if (typeof waitUntil === 'function') waitUntil(aviso);
+  else await aviso;
   return json({ ok: true }, 201);
 }
