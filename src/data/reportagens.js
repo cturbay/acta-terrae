@@ -21,7 +21,7 @@ export const reportagens = [
   {
     slug: 'erosao-costeira-sul-da-bahia',
     secao: 'Mudanças climáticas',
-    titulo: 'Erosão costeira: causas e desafios para o século 21',
+    titulo: 'Mar avança na costa sul da Bahia',
     resumo:
       'Muros, cercas e construções à beira-mar enfraquecem a cada maré forte. O que explica o recuo da costa no litoral do sul da Bahia?',
     autor: 'Caio Gabrig Turbay',
@@ -30,7 +30,7 @@ export const reportagens = [
     en: {
       secao: 'Climate change',
       data: 'August 2023',
-      titulo: 'Coastal erosion: causes and challenges for the 21st century',
+      titulo: 'The sea advances on the southern Bahia coast',
       resumo:
         'Walls, fences and seafront buildings are weakened with every strong tide. What explains the retreat of the coast in southern Bahia?',
     },
