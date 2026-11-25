@@ -18,24 +18,17 @@ export async function onRequestGet({ request, env }) {
   return json(results);
 }
 
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-
-// Aviso por e-mail (Resend). Só roda se RESEND_API_KEY estiver configurada; qualquer falha é ignorada
-// para nunca impedir o comentário de ser guardado.
+// Aviso por e-mail via um pequeno script do Google (Apps Script) que envia pelo Gmail do autor.
+// Só roda se AVISO_WEBHOOK estiver configurada; qualquer falha é ignorada para nunca
+// impedir o comentário de ser guardado.
 async function avisarPorEmail(env, { pagina, nome, texto }) {
-  if (!env.RESEND_API_KEY) return;
-  const para = env.AVISO_EMAIL_PARA || 'actaterrae@gmail.com';
-  const de = env.AVISO_EMAIL_DE || 'Acta Terrae <onboarding@resend.dev>';
+  if (!env.AVISO_WEBHOOK) return;
   const site = env.SITE_URL || 'https://actaterrae.com.br';
-  const html =
-    `<p><strong>${esc(nome)}</strong> comentou em <a href="${site}${pagina}">${esc(pagina)}</a>:</p>` +
-    `<blockquote style="margin:0;padding:.6rem 1rem;border-left:3px solid #b4532a;background:#f6f1e7;white-space:pre-wrap">${esc(texto)}</blockquote>` +
-    `<p>O comentário está aguardando a sua aprovação. <a href="${site}/admin/">Abrir o painel de moderação</a></p>`;
   try {
-    await fetch('https://api.resend.com/emails', {
+    await fetch(env.AVISO_WEBHOOK, {
       method: 'POST',
-      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
-      body: JSON.stringify({ from: de, to: [para], subject: `Novo comentário de ${nome.slice(0, 40)} – Acta Terrae`, html }),
+      headers: { 'content-type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ nome, texto, pagina, link: site + pagina, painel: site + '/admin/' }),
     });
   } catch {}
 }
